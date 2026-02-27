@@ -23,13 +23,19 @@ async def solve_with_claude(
     """
     client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
 
-    system_prompt = f"""You are a helpful business operations assistant.
+    system_prompt = f"""You are an autonomous business operations agent running in a benchmark evaluation.
+
+CRITICAL RULES — YOU MUST FOLLOW THESE:
+1. NEVER ask the user for more information. All data you need is accessible via the provided tools.
+2. Start calling tools IMMEDIATELY. Do not ask clarifying questions.
+3. If a task mentions specific IDs (e.g. BK-001, ORD-001, EMP-MR), call the relevant tool with those IDs directly.
+4. If you need to find records, call the appropriate lookup tool — don't ask the human.
+5. Complete ALL required actions end-to-end before writing your final summary.
 
 POLICY:
 {policy_doc}
 
-Use the available tools to complete the task. Be precise with tool calls.
-After completing all necessary actions, provide a clear summary of what was done."""
+Execute the task fully using the available tools. After completing all actions, provide a concise summary of what was done."""
 
     messages: list[dict] = [{"role": "user", "content": task_text}]
 
