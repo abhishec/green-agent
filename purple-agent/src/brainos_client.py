@@ -46,6 +46,7 @@ async def run_task(
                     raise BrainOSUnavailableError(f"BrainOS returned {resp.status_code}")
 
                 final_answer = ""
+                tool_results = []
                 async for line in resp.aiter_lines():
                     if not line.startswith("data: "):
                         continue
@@ -60,13 +61,44 @@ async def run_task(
                     if "tool_call" in event:
                         tc = event["tool_call"]
                         tool_result = await on_tool_call(tc.get("name", ""), tc.get("params", {}))
-                        # Tool results are injected back via the same conversation
-                        # BrainOS handles the loop server-side; we just collect the final answer
+                        # Collect tool results to send back in follow-up POST
+                        tool_results.append({
+                            "name": tc.get("name", ""),
+                            "result": tool_result
+                        })
 
                     if "answer" in event:
                         final_answer = event["answer"]
                     elif "text" in event:
                         final_answer += event["text"]
+
+                # If we have tool results but no final answer, send them back via follow-up POST
+                if tool_results and not final_answer:
+                    followup_payload = {
+                        "message": "Tool results:",
+                        "conversationId": session_id,
+                        "toolResults": tool_results,
+                    }
+                    async with httpx.AsyncClient(timeout=TASK_TIMEOUT) as client:
+                        async with client.stream("POST", url, headers=headers, json=followup_payload) as followup_resp:
+                            if followup_resp.status_code >= 400:
+                                raise BrainOSUnavailableError(f"BrainOS follow-up returned {followup_resp.status_code}")
+
+                            async for line in followup_resp.aiter_lines():
+                                if not line.startswith("data: "):
+                                    continue
+                                data_str = line[6:].strip()
+                                if not data_str or data_str == "[DONE]":
+                                    continue
+                                try:
+                                    event = json.loads(data_str)
+                                except json.JSONDecodeError:
+                                    continue
+
+                                if "answer" in event:
+                                    final_answer = event["answer"]
+                                elif "text" in event:
+                                    final_answer += event["text"]
 
                 return final_answer
 
