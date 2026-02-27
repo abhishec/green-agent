@@ -24,11 +24,13 @@ async def run(task_id: str, difficulty: str, purple_url: str, green_url: str) ->
     result = await run_assessment(
         task_id=task_id,
         purple_agent_url=purple_url,
+        green_agent_url=green_url,
         difficulty=difficulty,
         session_id=session_id,
     )
 
     scores = result.score.summary()
+    dims = scores.get("dimensions", {})
     print(f"\n{'='*55}")
     print(f"  AgentBench Results — {task_id.upper()}")
     print(f"{'='*55}")
@@ -37,7 +39,7 @@ async def run(task_id: str, difficulty: str, purple_url: str, green_url: str) ->
     weights = {"functional": "30%", "policy_compliance": "20%", "escalation": "15%",
                "sequence": "15%", "arithmetic": "10%", "hallucination": "5%", "communication": "5%"}
     for dim, weight in weights.items():
-        score = scores.get(dim, 0)
+        score = dims.get(dim, 0)
         bar = "█" * int(score / 10) + "░" * (10 - int(score / 10))
         print(f"  {dim:<22} {score:>5.1f}  {weight:>7}  {bar}")
     print(f"  {'-'*42}")

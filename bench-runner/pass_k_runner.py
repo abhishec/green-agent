@@ -13,12 +13,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "green-agent"))
 
 
-async def run_task_k_times(task_id: str, k: int, purple_url: str) -> dict:
+async def run_task_k_times(task_id: str, k: int, purple_url: str, green_url: str = "http://localhost:9009") -> dict:
     from src.task_manager import run_assessment
 
     scores = []
     for i in range(k):
-        result = await run_assessment(task_id=task_id, purple_agent_url=purple_url)
+        result = await run_assessment(task_id=task_id, purple_agent_url=purple_url, green_agent_url=green_url)
         scores.append(result.score.overall)
         print(f"  {task_id} run {i+1}/{k}: {result.score.overall:.1f}")
 
@@ -36,14 +36,14 @@ async def run_task_k_times(task_id: str, k: int, purple_url: str) -> dict:
     }
 
 
-async def run_all(k: int, purple_url: str):
+async def run_all(k: int, purple_url: str, green_url: str = "http://localhost:9009"):
     from src.scenarios import SCENARIO_REGISTRY
 
     tasks = list(SCENARIO_REGISTRY.keys())
     results = []
     for task_id in tasks:
         print(f"\nRunning {task_id} x{k}...")
-        r = await run_task_k_times(task_id, k, purple_url)
+        r = await run_task_k_times(task_id, k, purple_url, green_url)
         results.append(r)
 
     print(f"\n{'='*72}")
@@ -64,12 +64,13 @@ def main():
     parser.add_argument("--all", action="store_true", help="Run all tasks")
     parser.add_argument("--k", type=int, default=8)
     parser.add_argument("--purple-url", default="http://localhost:9010")
+    parser.add_argument("--green-url", default="http://localhost:9009")
     args = parser.parse_args()
 
     if args.all:
-        asyncio.run(run_all(args.k, args.purple_url))
+        asyncio.run(run_all(args.k, args.purple_url, args.green_url))
     elif args.task:
-        result = asyncio.run(run_task_k_times(args.task, args.k, args.purple_url))
+        result = asyncio.run(run_task_k_times(args.task, args.k, args.purple_url, args.green_url))
         print(f"\npass@1={result['pass_at_1']}% avg={result['avg_score']} pass^{args.k}={'PASS' if result['pass_k'] else 'FAIL'}")
     else:
         parser.print_help()

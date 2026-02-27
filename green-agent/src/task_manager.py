@@ -29,6 +29,7 @@ class AssessmentResult:
 async def run_assessment(
     task_id: str,
     purple_agent_url: str,
+    green_agent_url: str | None = None,
     difficulty: str = "none",
     session_id: str | None = None,
 ) -> AssessmentResult:
@@ -51,7 +52,7 @@ async def run_assessment(
     await seed_session_db(session_id, fixture, task_id)
 
     # Build A2A request
-    tools_endpoint = os.getenv("GREEN_AGENT_MCP_URL", "http://localhost:9009")
+    tools_endpoint = green_agent_url or os.getenv("GREEN_AGENT_MCP_URL", "http://localhost:9009")
     a2a_payload = {
         "jsonrpc": "2.0",
         "method": "tasks/send",
