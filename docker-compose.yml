@@ -1,0 +1,52 @@
+version: "3.9"
+
+networks:
+  agentbench:
+    driver: bridge
+
+services:
+  green-agent:
+    build:
+      context: ./green-agent
+      dockerfile: Dockerfile
+    ports:
+      - "9009:9009"
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - ./green-agent/src:/app/src
+    networks:
+      - agentbench
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9009/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  purple-agent:
+    build:
+      context: ./purple-agent
+      dockerfile: Dockerfile
+    ports:
+      - "9010:9010"
+    environment:
+      - PYTHONPATH=/app
+      - BRAINOS_API_URL=${BRAINOS_API_URL:-https://platform.usebrainos.com}
+      - BRAINOS_API_KEY=${BRAINOS_API_KEY:-}
+      - BRAINOS_ORG_ID=${BRAINOS_ORG_ID:-}
+      - GREEN_AGENT_MCP_URL=http://green-agent:9009
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    volumes:
+      - ./purple-agent/src:/app/src
+    networks:
+      - agentbench
+    depends_on:
+      green-agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9010/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped

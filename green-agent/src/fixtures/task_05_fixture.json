@@ -1,0 +1,15 @@
+{
+  "invoices": [
+    {"id":"INV-DE-0291","vendor_id":"VEND-TLX","currency":"EUR","amount":8420.00,"amount_usd":null,"issued_date":"2026-01-15","description":"Platform Development Jan","bank_ref":"DE82500105170648489890","status":"unreconciled"},
+    {"id":"INV-US-0847","vendor_id":"VEND-TLX","currency":"USD","amount":9180.00,"amount_usd":9180.00,"issued_date":"2026-01-16","description":"Platform Dev January","bank_ref":"TECHLINX-JAN-2026","status":"unreconciled"},
+    {"id":"INV-SG-0103","vendor_id":"VEND-TLX","currency":"SGD","amount":12600.00,"amount_usd":null,"issued_date":"2026-01-17","description":"Platform Development - January 2026","bank_ref":"TLX-SG-0103","status":"unreconciled"}
+  ],
+  "vendors": [{"id":"VEND-TLX","name":"Techlinx GmbH","country":"DE","tax_id":"DE294719823"}],
+  "bank_transactions": [
+    {"id":"TXN-A","amount_usd":9191.22,"date":"2026-01-20","ref":"Techlinx EUR inv","matched":false},
+    {"id":"TXN-B","amount_usd":9180.00,"date":"2026-01-21","ref":"TECHLINX-JAN-2026","matched":false},
+    {"id":"TXN-C","amount_usd":9350.00,"date":"2026-01-22","ref":"TLX SG Jan","matched":false}
+  ],
+  "fx_rates": [{"date":"2026-01-15","EUR_USD":1.091,"SGD_USD":0.742}],
+  "reconciliation_policy": {"fx_bank_charge_tolerance_usd":5.00,"duplicate_detection":"same_vendor_same_period_same_service","gl_posting_requires":"manager_approval_if_duplicate_flagged"}
+}

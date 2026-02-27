@@ -1,0 +1,15 @@
+{
+  "employees": [{"id":"EMP-MR","name":"Marcus Rodriguez","email":"marcus.r@company.com","department":"Engineering","title":"Senior Software Engineer","hire_date":"2022-03-15","termination_date":"2026-02-28","annual_salary":95000,"pto_balance_days":11.3,"status":"active"}],
+  "assets": [
+    {"id":"ASSET-001","employee_id":"EMP-MR","type":"laptop","model":"MacBook Pro 16\"","serial":"MBP-2847","purchase_price":2499.00,"purchase_date":"2023-06-01","depreciation_years":3,"current_book_value":null,"status":"active"},
+    {"id":"ASSET-002","employee_id":"EMP-MR","type":"phone","model":"iPhone 14 Pro","serial":"IP-9271","purchase_price":999.00,"purchase_date":"2023-06-01","status":"active"}
+  ],
+  "access_records": [
+    {"id":"ACC-001","employee_id":"EMP-MR","system":"GitHub","role":"admin","status":"active"},
+    {"id":"ACC-002","employee_id":"EMP-MR","system":"AWS","role":"PowerUser","status":"active"},
+    {"id":"ACC-003","employee_id":"EMP-MR","system":"Salesforce","role":"admin","status":"active"},
+    {"id":"ACC-004","employee_id":"EMP-MR","system":"Slack","role":"member","status":"active"},
+    {"id":"ACC-005","employee_id":"EMP-MR","system":"1Password","role":"member","status":"active"}
+  ],
+  "hr_policies": {"pto_rounding":"floor_half_day","pto_payout_formula":"days_rounded * (annual_salary / 260)","benefits_end":"last_day_of_termination_month","access_revocation_order":["admin_systems_first","then_communication","then_security_last"]}
+}

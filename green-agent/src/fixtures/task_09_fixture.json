@@ -1,0 +1,21 @@
+{
+  "subscriptions": [{"id":"SUB-NEXUS-001","customer_id":"CUST-NEXUS","current_plan":"Enterprise Legacy","current_plan_cost":8400,"new_plan":"Enterprise Cloud","new_plan_cost":5800,"migration_requested":"2026-02-27","status":"pending_migration"}],
+  "customers": [{"id":"CUST-NEXUS","name":"Nexus Corp","contact":"alex.rivera@nexuscorp.com","title":"CTO"}],
+  "current_features": [
+    {"feature_id":"FEAT-001","name":"SSO","type":"SAML","status":"active","idp":"Okta SAML"},
+    {"feature_id":"FEAT-002","name":"Custom Subdomain","value":"nexus.platform.com","dns_configured":true,"status":"active"},
+    {"feature_id":"FEAT-003","name":"Dedicated IP","value":"203.0.113.47","whitelisted_by_customer":true,"status":"active"},
+    {"feature_id":"FEAT-004","name":"API Rate Limit","value":10000,"unit":"per_minute","current_usage_avg":3200,"status":"active"},
+    {"feature_id":"FEAT-005","name":"SLA","value":"99.95%","status":"active"},
+    {"feature_id":"FEAT-006","name":"QBR","frequency":"quarterly","status":"active"}
+  ],
+  "new_plan_features": [
+    {"feature_id":"FEAT-001-NEW","name":"SSO","type":"OAuth2","note":"SAML not supported"},
+    {"feature_id":"FEAT-002-NEW","name":"Subdomain","value":"*.platform.com","note":"shared pool, no custom"},
+    {"feature_id":"FEAT-003-NEW","name":"IP","value":"shared_pool","note":"no dedicated"},
+    {"feature_id":"FEAT-004-NEW","name":"API Rate Limit","value":5000,"unit":"per_minute"},
+    {"feature_id":"FEAT-005-NEW","name":"SLA","value":"99.9%"},
+    {"feature_id":"FEAT-006-NEW","name":"QBR","frequency":"annual"}
+  ],
+  "data_storage": {"customer_id":"CUST-NEXUS","total_gb":847,"export_max_file_gb":50}
+}

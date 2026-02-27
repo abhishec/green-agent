@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "green-agent",
+      "runtimeExecutable": "uvicorn",
+      "runtimeArgs": ["src.server:app", "--host", "0.0.0.0", "--port", "9009", "--reload"],
+      "port": 9009
+    },
+    {
+      "name": "purple-agent",
+      "runtimeExecutable": "uvicorn",
+      "runtimeArgs": ["src.server:app", "--host", "0.0.0.0", "--port", "9010", "--reload"],
+      "port": 9010
+    }
+  ]
+}

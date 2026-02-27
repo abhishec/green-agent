@@ -1,0 +1,15 @@
+{
+  "clients": [{"id":"CLIENT-TC","name":"TechCorp","sla_id":"SLA-TC-001"}],
+  "sla_configs": [{"id":"SLA-TC-001","client_id":"CLIENT-TC","uptime_pct":99.9,"response_time_p99_ms":200,"monthly_allowable_downtime_min":43.8,"maintenance_windows":[{"day":"Saturday","start_utc":"02:00","end_utc":"06:00"}]}],
+  "incidents": [
+    {"id":"INC-001","client_id":"CLIENT-TC","start":"2026-02-03T09:00:00Z","end":"2026-02-03T09:47:00Z","duration_min":47,"excluded":true,"exclusion_reason":"scheduled_maintenance","counted_downtime_min":0},
+    {"id":"INC-002","client_id":"CLIENT-TC","start":"2026-02-14T03:15:00Z","end":"2026-02-14T03:52:00Z","duration_min":37,"excluded":false,"counted_downtime_min":37},
+    {"id":"INC-003","client_id":"CLIENT-TC","start":"2026-02-21T02:30:00Z","end":"2026-02-21T04:45:00Z","duration_min":135,"excluded":true,"exclusion_reason":"maintenance_window_saturday","counted_downtime_min":0},
+    {"id":"INC-004","client_id":"CLIENT-TC","start":"2026-02-27T14:30:00Z","end":null,"status":"ongoing","elapsed_min":94,"p99_ms":450}
+  ],
+  "oncall": [
+    {"id":"ONC-001","name":"Alice Nguyen","phone":"+1-415-555-0147","role":"primary","quiet_hours_local":"22:00-07:00","timezone":"America/Los_Angeles","quiet_hours_utc":"06:00-15:00"},
+    {"id":"ONC-002","name":"Bob Kim","phone":"+1-415-555-0283","role":"secondary"}
+  ],
+  "current_time_utc": "2026-02-27T16:04:00Z"
+}

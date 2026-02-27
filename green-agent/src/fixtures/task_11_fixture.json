@@ -1,0 +1,22 @@
+{
+  "journal_entries": [
+    {"id":"JE-2026-0001","date":"2026-02-01","description":"Revenue recognition batch","count":287,"total_revenue":892450.00}
+  ],
+  "deferred_revenue": [
+    {"contract_id":"C-2201","total":120000,"start":"2026-01-01","end":"2026-12-31","monthly_amount":10000,"period_days":365},
+    {"contract_id":"C-2198","total":48000,"start":"2026-02-15","end":"2026-08-14","partial_feb_FIXTURE_VALUE":3871,"note":"PLANTED_ERROR_recalculate_do_not_use_fixture_value","period_days":181}
+  ],
+  "fixed_assets": [
+    {"asset_id":"FA-0047","name":"Server Cluster","cost":180000,"useful_life_months":60,"depreciation_start":"2024-09-01","monthly_depreciation":3000},
+    {"asset_id":"FA-0051","name":"Office Renovation","cost":45000,"useful_life_months":120,"depreciation_start":"2025-01-01","monthly_depreciation":375}
+  ],
+  "fx_transactions": [
+    {"txn_id":"FX-001","currency":"EUR","amount":42000,"booking_rate":1.088,"close_rate":1.091},
+    {"txn_id":"FX-002","currency":"JPY","amount":5200000,"booking_rate":0.00672,"close_rate":0.00668}
+  ],
+  "accruals_pending": [
+    {"vendor":"AWS","estimated_amount":18500,"invoice_received":false,"gl_account":"6100-Cloud-Infrastructure"},
+    {"vendor":"Contractor NDA","estimated_amount":12000,"invoice_received":false,"gl_account":"6200-Contractor-Services"}
+  ],
+  "close_period": "2026-02"
+}

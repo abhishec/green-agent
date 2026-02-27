@@ -1,0 +1,14 @@
+{
+  "travelers": [{"id":"TRAV-JW","name":"James Whitfield","title":"VP of Sales","loyalty_tier":"GOLD","loyalty_program":"United","email":"j.whitfield@company.com"}],
+  "bookings": [
+    {"id":"BK-001","traveler_id":"TRAV-JW","flight":"UA288","route":"SFO-NYC","date":"2026-02-28","time":"09:00","class":"business","cost":1240.00,"mileage":2586,"status":"cancelled","cancellation_reason":"weather_storm"},
+    {"id":"BK-002","traveler_id":"TRAV-JW","hotel":"Marriott Times Square","city":"NYC","checkin":"2026-02-28","checkout":"2026-03-02","rate_per_night":289.00,"nights":2,"total":578.00,"status":"active"},
+    {"id":"BK-003","traveler_id":"TRAV-JW","flight":"UA170","route":"NYC-LON","date":"2026-03-02","time":"18:00","class":"business","cost":4200.00,"mileage":3459,"status":"active"}
+  ],
+  "travel_policy": {"economy_cap_domestic":500,"business_allowed_international":true,"domestic_rebook_cap":1500,"hotel_cap_domestic_per_night":200,"gold_tier_perks":["free_same_day_change","upgrade_priority"]},
+  "alternatives": [
+    {"id":"ALT-001","flight":"AA1043","route":"SFO-NYC","date":"2026-03-01","time":"07:00","class":"business","cost":1100.00,"available":true,"arrives":"2026-03-01T15:30"},
+    {"id":"ALT-002","flight":"UA301","route":"SFO-NYC","date":"2026-02-28","time":"14:00","class":"economy","cost":380.00,"available":true},
+    {"id":"ALT-003","flight":"UA515","route":"SFO-NYC","date":"2026-03-01","time":"11:00","class":"economy","cost":420.00,"available":true}
+  ]
+}

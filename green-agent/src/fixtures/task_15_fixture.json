@@ -1,0 +1,18 @@
+{
+  "deck_versions": [
+    {"version":"v2.1","source":"sales_team","revenue_q1_bookings":4240000,"nps":42,"churn_pct":3.2,"new_logos":7,"incidents_mentioned":false,"risk_accounts":["ACCT-Gamma"]},
+    {"version":"v2.3","source":"csm_team","revenue_q1_recognized":4190000,"nps":38,"churn_pct":4.1,"new_logos":7,"incidents_mentioned":true,"sla_breach_included":true,"risk_accounts":["ACCT-Gamma","ACCT-Delta"]},
+    {"version":"v2.5","source":"finance_team","revenue_bookings":4240000,"revenue_recognized":4190000,"deferred_revenue":50000,"nps_note":"truncated_sample_n12","churn_pct":4.1}
+  ],
+  "internal_data": {
+    "actual_p1_incidents":3,
+    "sla_breach_client":"TechCorp",
+    "nda_clients":["ACCT-Delta"],
+    "nda_note":"ACCT-Delta name is confidential per NDA — must not appear in board or client-facing materials"
+  },
+  "audience_rules": {
+    "executive_internal": {"include_all":true,"include_nda_clients":true,"include_incidents":true},
+    "board": {"no_client_names_in_risk":true,"no_incident_details":true,"show_bookings_vs_recognized":true},
+    "client_facing_techcorp": {"exclude_other_client_data":true,"exclude_nda_clients":true,"exclude_incidents":true,"exclude_internal_metrics":true}
+  }
+}

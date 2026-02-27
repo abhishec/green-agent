@@ -1,0 +1,11 @@
+{
+  "disputes": [{"id":"DSP-2026-0445","claimant":"Omega Systems","respondent":"Nova Engineering","third_party":"Atlas Capital","status":"open","created":"2026-02-01"}],
+  "contracts": [{"id":"CONT-001","parties":["Omega Systems","Nova Engineering"],"type":"fixed_price","original_value":900000,"actual_spend":1017500,"overrun":117500}],
+  "change_orders": [
+    {"id":"CO-001","amount":22000,"signed_by":["Omega Systems","Nova Engineering"],"status":"valid","disputed":false},
+    {"id":"CO-002","amount":18200,"signed_by":["Omega Systems"],"status":"disputed","note":"Nova signed, Omega disputes"},
+    {"id":"CO-003","amount":14400,"signed_by":[],"verbal_only":true,"status":"invalid","note":"verbal agreement, no signature"}
+  ],
+  "retention": [{"holder":"Atlas Capital","amount":85000,"release_condition":"dispute_fully_resolved","status":"held"}],
+  "dispute_policy": {"mediator_required_above":50000,"signed_co_mandatory_payment":true,"verbal_co_standing":"none","retention_release":"after_full_resolution"}
+}

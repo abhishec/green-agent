@@ -1,0 +1,21 @@
+{
+  "customers": [{"id":"ACCT-DMV-2024","name":"Dmitri Volkov","account_opened":"2024-06-15","kyc_status":"verified","kyc_last_review":"2024-06-15","source_of_funds":"Business income - import/export","nationality":"RU","residence":"DE"}],
+  "pep_check": {"customer_id":"ACCT-DMV-2024","match":"Possible match: Dmitri Volkov, former Deputy Trade Minister, Belarus","confidence":0.72,"match_date":"2026-02-27"},
+  "transactions": [
+    {"month":"2025-08","inflow_usd":42000,"sources":["UAE-LLC-001","Cyprus-Holdings-002","BVI-Corp-003"]},
+    {"month":"2025-09","inflow_usd":38000,"sources":["UAE-LLC-001","Cyprus-Holdings-002","BVI-Corp-003"]},
+    {"month":"2025-10","inflow_usd":45000,"sources":["UAE-LLC-001","BVI-Corp-003"]},
+    {"month":"2025-11","inflow_usd":39000,"sources":["UAE-LLC-001","Cyprus-Holdings-002"]},
+    {"month":"2025-12","inflow_usd":41000,"sources":["Cyprus-Holdings-002","BVI-Corp-003"]},
+    {"month":"2026-01","inflow_usd":43000,"sources":["UAE-LLC-001","Cyprus-Holdings-002","BVI-Corp-003"]},
+    {"month":"2026-02","inflow_usd":40000,"sources":["UAE-LLC-001","BVI-Corp-003"]}
+  ],
+  "aml_policy": {
+    "pep_edd_threshold_confidence":0.60,
+    "kyc_refresh_months":12,
+    "high_risk_jurisdictions":["BVI","Iran","North Korea"],
+    "sar_consideration_triggers":["pep_match","high_risk_jurisdiction","layered_transaction_structure"],
+    "tipping_off_prohibition":true,
+    "edd_action":"review_not_freeze"
+  }
+}
