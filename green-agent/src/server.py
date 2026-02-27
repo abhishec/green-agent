@@ -58,8 +58,7 @@ async def agent_card():
 
 @app.get("/health")
 async def health():
-    from src.mcp_server import TOOL_SCHEMAS
-    return {"status": "ok", "agent": "green-benchmark", "scenarios": len(SCENARIO_REGISTRY), "tool_schema_count": len(TOOL_SCHEMAS)}
+    return {"status": "ok", "agent": "green-benchmark", "scenarios": len(SCENARIO_REGISTRY)}
 
 
 # ── MCP Tool Server ─────────────────────────────────────────────────────────
