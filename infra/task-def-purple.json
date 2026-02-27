@@ -1,0 +1,31 @@
+{
+  "family": "agentbench-purple",
+  "cpu": "512",
+  "memory": "1024",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "executionRoleArn": "arn:aws:iam::848269696611:role/ecsTaskExecutionRole",
+  "containerDefinitions": [{
+    "name": "purple-agent",
+    "image": "848269696611.dkr.ecr.us-east-1.amazonaws.com/agentbench-purple:latest",
+    "portMappings": [{"containerPort": 9010, "protocol": "tcp"}],
+    "essential": true,
+    "environment": [
+      {"name": "BRAINOS_API_URL", "value": "https://platform.usebrainos.com"},
+      {"name": "PORT", "value": "9010"}
+    ],
+    "secrets": [
+      {"name": "BRAINOS_API_KEY", "valueFrom": "arn:aws:ssm:us-east-1:848269696611:parameter/agentbench/brainos-api-key"},
+      {"name": "BRAINOS_ORG_ID", "valueFrom": "arn:aws:ssm:us-east-1:848269696611:parameter/agentbench/brainos-org-id"},
+      {"name": "ANTHROPIC_API_KEY", "valueFrom": "arn:aws:ssm:us-east-1:848269696611:parameter/agentbench/anthropic-api-key"}
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/agentbench-purple",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
+  }]
+}

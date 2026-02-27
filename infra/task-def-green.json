@@ -1,0 +1,23 @@
+{
+  "family": "agentbench-green",
+  "cpu": "512",
+  "memory": "1024",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "executionRoleArn": "arn:aws:iam::848269696611:role/ecsTaskExecutionRole",
+  "containerDefinitions": [{
+    "name": "green-agent",
+    "image": "848269696611.dkr.ecr.us-east-1.amazonaws.com/agentbench-green:latest",
+    "portMappings": [{"containerPort": 9009, "protocol": "tcp"}],
+    "essential": true,
+    "environment": [{"name": "PORT", "value": "9009"}],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/agentbench-green",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
+  }]
+}
