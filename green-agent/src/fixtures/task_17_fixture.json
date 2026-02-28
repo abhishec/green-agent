@@ -1,0 +1,61 @@
+{
+  "users": [
+    {
+      "id": "USR-8820",
+      "name": "Marcus Chen",
+      "email": "marcus.chen8820@example.com",
+      "zip": "60614",
+      "address": "2145 N Clark St, Apt 12, Chicago, IL 60614, USA",
+      "payment_methods": [
+        {"id": "CC-9034", "type": "credit_card", "last4": "9034", "brand": "Mastercard"},
+        {"id": "GC-3847", "type": "gift_card", "balance": 0.00, "original_balance": 100.00}
+      ],
+      "orders": ["W7719302"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "W7719302",
+      "user_id": "USR-8820",
+      "status": "pending",
+      "total": 157.50,
+      "payment_breakdown": [
+        {"payment_id": "GC-3847", "amount": 100.00},
+        {"payment_id": "CC-9034", "amount": 57.50}
+      ],
+      "created_at": "2026-02-27T09:15:00Z",
+      "items": [
+        {
+          "item_id": "ITEM-CM01",
+          "product_id": "PROD-CM01",
+          "product_name": "Programmable Coffee Maker 12-Cup",
+          "quantity": 1,
+          "unit_price": 157.50
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD-CM01",
+      "name": "Programmable Coffee Maker 12-Cup",
+      "type": "coffee_maker",
+      "price": 157.50,
+      "variants": [{"color": "stainless_steel"}, {"color": "black"}]
+    }
+  ],
+  "cancellation_policy": {
+    "eligible_statuses": ["pending"],
+    "valid_reasons": ["no longer needed", "ordered by mistake"],
+    "refund_timeline": {
+      "gift_card": "immediate",
+      "credit_card": "5-7 business days"
+    }
+  },
+  "calculation_hints": {
+    "total_order": 157.50,
+    "gift_card_refund": 100.00,
+    "credit_card_refund": 57.50,
+    "note": "Split-payment: GC-3847 gets $100 back (immediate), CC-9034 gets $57.50 back (5-7 days)"
+  }
+}

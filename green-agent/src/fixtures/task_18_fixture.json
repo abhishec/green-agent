@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": "USR-2293",
+      "name": "Priya Patel",
+      "email": "priya.patel2293@example.com",
+      "zip": "94102",
+      "address": "88 Gough Street, Apt 3C, San Francisco, CA 94102, USA",
+      "payment_methods": [
+        {"id": "GC-8821", "type": "gift_card", "balance": 12.50},
+        {"id": "CC-4412", "type": "credit_card", "last4": "4412", "brand": "Amex"}
+      ],
+      "orders": ["W6634812"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "W6634812",
+      "user_id": "USR-2293",
+      "status": "delivered",
+      "total": 45.99,
+      "payment_method": "GC-8821",
+      "delivered_at": "2026-02-20T11:00:00Z",
+      "items": [
+        {
+          "item_id": "ITEM-DL01",
+          "product_id": "PROD-DL01",
+          "product_name": "Modern LED Desk Lamp",
+          "color": "black",
+          "quantity": 1,
+          "unit_price": 45.99
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD-DL01",
+      "name": "Modern LED Desk Lamp",
+      "type": "desk_lamp",
+      "variants": [
+        {"color": "black", "price": 45.99, "in_stock": true},
+        {"color": "white", "price": 45.99, "in_stock": true},
+        {"color": "silver", "price": 47.99, "in_stock": true}
+      ]
+    }
+  ],
+  "exchange_policy": {
+    "eligible_statuses": ["delivered"],
+    "same_product_type_required": true,
+    "price_difference_payment": "original_or_on_file_method"
+  },
+  "calculation_hints": {
+    "original_price": 45.99,
+    "new_price": 45.99,
+    "price_difference": 0.0,
+    "note": "Black to white: same price, no additional payment needed"
+  }
+}

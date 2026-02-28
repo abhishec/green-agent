@@ -1,0 +1,78 @@
+{
+  "users": [
+    {
+      "id": "mia_li_3668",
+      "name": "Mia Li",
+      "email": "mia.li3668@example.com",
+      "membership": "regular",
+      "payment_methods": [
+        {"id": "CERT-2501", "type": "travel_certificate", "balance": 250.00},
+        {"id": "CC-3311", "type": "credit_card", "last4": "3311", "brand": "Visa"},
+        {"id": "GC-7722", "type": "gift_card", "balance": 75.00}
+      ]
+    }
+  ],
+  "flights": [
+    {
+      "flight_id": "DL401",
+      "origin": "JFK",
+      "destination": "SEA",
+      "date": "2026-05-20",
+      "departure_time": "07:30",
+      "arrival_time": "11:45",
+      "duration_hours": 6.25,
+      "cabin": "economy",
+      "base_fare": 189.00,
+      "stops": 0,
+      "available_seats": 12
+    },
+    {
+      "flight_id": "AA518",
+      "origin": "JFK",
+      "destination": "SEA",
+      "date": "2026-05-20",
+      "departure_time": "12:15",
+      "arrival_time": "16:30",
+      "duration_hours": 6.25,
+      "cabin": "economy",
+      "base_fare": 215.00,
+      "stops": 0,
+      "available_seats": 5
+    },
+    {
+      "flight_id": "UA709",
+      "origin": "JFK",
+      "destination": "SEA",
+      "date": "2026-05-20",
+      "departure_time": "14:00",
+      "arrival_time": "18:20",
+      "duration_hours": 6.33,
+      "cabin": "economy",
+      "base_fare": 198.00,
+      "stops": 0,
+      "available_seats": 20
+    }
+  ],
+  "baggage_policy": {
+    "economy_free_bags": 1,
+    "extra_bag_fee": 50.00,
+    "silver_free_bags_economy": 2,
+    "gold_free_bags_economy": 3
+  },
+  "insurance_policy": {
+    "cost_per_passenger": 30.00,
+    "covers": "full refund for health or weather cancellation"
+  },
+  "reservations": [],
+  "calculation_hints": {
+    "base_fare_AA518_post_11am": 215.00,
+    "bags": 2,
+    "free_bags_economy": 1,
+    "extra_bags": 1,
+    "baggage_fee": "1 * $50 = $50",
+    "insurance": "declined",
+    "total": "215.00 + 50.00 = $265.00",
+    "cert_covers": 250.00,
+    "cc_remainder": "265.00 - 250.00 = $15.00"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "users": [
+    {
+      "id": "omar_davis_3817",
+      "name": "Omar Davis",
+      "email": "omar.davis3817@example.com",
+      "membership": "gold",
+      "payment_methods": [
+        {"id": "CC-6612", "type": "credit_card", "last4": "6612", "brand": "Amex"},
+        {"id": "GC-9943", "type": "gift_card", "balance": 500.00}
+      ],
+      "reservation_ids": ["JG7FMM", "2FBBAH", "X7BYG1", "EQ1G6C", "BOH180"]
+    }
+  ],
+  "reservations": [
+    {
+      "id": "JG7FMM",
+      "user_id": "omar_davis_3817",
+      "route": "LAX->JFK",
+      "cabin": "business",
+      "business_fare": 2890.00,
+      "economy_fare": 420.00,
+      "savings": 2470.00,
+      "date": "2026-06-01",
+      "passengers": [{"name": "Omar Davis", "dob": "1982-11-14"}]
+    },
+    {
+      "id": "2FBBAH",
+      "user_id": "omar_davis_3817",
+      "route": "JFK->LHR",
+      "cabin": "business",
+      "business_fare": 6820.00,
+      "economy_fare": 890.00,
+      "savings": 5930.00,
+      "date": "2026-06-05",
+      "passengers": [{"name": "Omar Davis", "dob": "1982-11-14"}]
+    },
+    {
+      "id": "X7BYG1",
+      "user_id": "omar_davis_3817",
+      "route": "LHR->CDG",
+      "cabin": "business",
+      "business_fare": 1450.00,
+      "economy_fare": 210.00,
+      "savings": 1240.00,
+      "date": "2026-06-08",
+      "passengers": [{"name": "Omar Davis", "dob": "1982-11-14"}]
+    },
+    {
+      "id": "EQ1G6C",
+      "user_id": "omar_davis_3817",
+      "route": "CDG->SIN",
+      "cabin": "business",
+      "business_fare": 7600.00,
+      "economy_fare": 980.00,
+      "savings": 6620.00,
+      "date": "2026-06-10",
+      "passengers": [{"name": "Omar Davis", "dob": "1982-11-14"}]
+    },
+    {
+      "id": "BOH180",
+      "user_id": "omar_davis_3817",
+      "route": "SIN->LAX",
+      "cabin": "business",
+      "business_fare": 8100.00,
+      "economy_fare": 807.00,
+      "savings": 7293.00,
+      "date": "2026-06-18",
+      "passengers": [{"name": "Omar Davis", "dob": "1982-11-14"}]
+    }
+  ],
+  "calculation_hints": {
+    "JG7FMM_savings": 2470.00,
+    "2FBBAH_savings": 5930.00,
+    "X7BYG1_savings": 1240.00,
+    "EQ1G6C_savings": 6620.00,
+    "BOH180_savings": 7293.00,
+    "total_savings": "2470 + 5930 + 1240 + 6620 + 7293 = $23,553"
+  }
+}

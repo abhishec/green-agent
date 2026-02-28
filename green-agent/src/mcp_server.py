@@ -31,6 +31,7 @@ SINGLE_CALL_TOOLS = {
     "close_period",          # task_11
     "write_off_bad_debt",    # task_13
     "rollback_deployment",   # task_14
+    "modify_pending_order_items",  # task_19 (retail)
 }
 
 # task_id → list of tool names available for that scenario
@@ -50,6 +51,14 @@ TASK_TOOL_MAP: dict[str, list[str]] = {
     "task_13": ["get_ar_aging","send_reminder_email","make_collection_call","place_order_hold","send_to_collections","write_off_bad_debt","file_proof_of_claim","stop_collections","notify_legal","charge_late_fee","send_formal_notice","set_cure_deadline","request_payment_method_update","escalate_dispute"],
     "task_14": ["get_incident","get_deployments","get_logs","get_product_history","create_rca_document","submit_change_request","post_status_update","rollback_deployment","flush_cache","notify_stakeholders"],
     "task_15": ["get_deck_versions","get_internal_data","reconcile_metrics","create_deck_executive","create_deck_board","create_deck_client_facing","create_reconciliation_memo","flag_nda_violation","flag_data_discrepancy"],
+    "task_16": ["find_user_by_email","find_user_by_name_zip","get_order_details","get_product_details","return_order_items","get_user_details","confirm_with_user","list_product_types"],
+    "task_17": ["find_user_by_email","find_user_by_name_zip","get_order_details","get_user_details","cancel_pending_order","confirm_with_user","get_product_details","list_product_types"],
+    "task_18": ["find_user_by_email","find_user_by_name_zip","get_order_details","get_product_details","exchange_order_items","get_user_details","confirm_with_user","list_product_types"],
+    "task_19": ["find_user_by_email","find_user_by_name_zip","get_order_details","get_product_details","modify_pending_order_items","get_user_details","confirm_with_user","list_product_types"],
+    "task_20": ["find_user_by_email","find_user_by_name_zip","get_order_details","get_user_details","modify_pending_order_address","modify_pending_order_payment","confirm_with_user","get_product_details"],
+    "task_21": ["get_user_details","search_direct_flights","search_onestop_flights","calculate_fare","book_flight","confirm_with_user","list_airports","get_flight_details"],
+    "task_22": ["get_user_details","get_reservation_details","update_reservation_flights","update_reservation_baggages","confirm_with_user","calculate_fare","search_direct_flights","list_airports"],
+    "task_23": ["get_user_details","get_reservation_details","cancel_reservation","update_reservation_flights","search_direct_flights","search_onestop_flights","confirm_with_user","list_airports"],
 }
 
 # Tool parameter schemas (Anthropic format)
@@ -189,6 +198,30 @@ TOOL_SCHEMAS: dict[str, dict] = {
     "create_reconciliation_memo": {"name":"create_reconciliation_memo","description":"Create reconciliation memo explaining discrepancies","input_schema":{"type":"object","properties":{"discrepancies":{"type":"array","items":{"type":"object"}}},"required":["discrepancies"]}},
     "flag_nda_violation": {"name":"flag_nda_violation","description":"Flag NDA client name appearing in inappropriate deck","input_schema":{"type":"object","properties":{"client_name":{"type":"string"},"deck_type":{"type":"string"}},"required":["client_name","deck_type"]}},
     "flag_data_discrepancy": {"name":"flag_data_discrepancy","description":"Flag data discrepancy between deck versions","input_schema":{"type":"object","properties":{"metric":{"type":"string"},"versions":{"type":"array","items":{"type":"string"}},"values":{"type":"object"}},"required":["metric"]}},
+    # ── Retail tau-bench tools (task_16-task_20) ──────────────────────────────
+    "find_user_by_email": {"name":"find_user_by_email","description":"Find retail customer user ID by email address","input_schema":{"type":"object","properties":{"email":{"type":"string"}},"required":["email"]}},
+    "find_user_by_name_zip": {"name":"find_user_by_name_zip","description":"Find retail customer user ID by full name and zip code","input_schema":{"type":"object","properties":{"name":{"type":"string"},"zip":{"type":"string"}},"required":["name","zip"]}},
+    "get_order_details": {"name":"get_order_details","description":"Get full details of a retail order including items, status, and payment","input_schema":{"type":"object","properties":{"order_id":{"type":"string"}},"required":["order_id"]}},
+    "get_product_details": {"name":"get_product_details","description":"Get product details including all available variants and prices","input_schema":{"type":"object","properties":{"product_id":{"type":"string"}},"required":["product_id"]}},
+    "get_user_details": {"name":"get_user_details","description":"Get customer profile including payment methods, address, and order history","input_schema":{"type":"object","properties":{"user_id":{"type":"string"}},"required":["user_id"]}},
+    "list_product_types": {"name":"list_product_types","description":"List all available product types in the retail catalog","input_schema":{"type":"object","properties":{},"required":[]}},
+    "return_order_items": {"name":"return_order_items","description":"Submit a return request for delivered order items with specified refund method","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"item_ids":{"type":"array","items":{"type":"string"}},"refund_method":{"type":"string"}},"required":["order_id","item_ids","refund_method"]}},
+    "cancel_pending_order": {"name":"cancel_pending_order","description":"Cancel a pending order with a valid reason; refunds to original payment method","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"reason":{"type":"string","enum":["no longer needed","ordered by mistake"]}},"required":["order_id","reason"]}},
+    "exchange_order_items": {"name":"exchange_order_items","description":"Exchange delivered order items for same product type with different options","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"item_id":{"type":"string"},"new_product_id":{"type":"string"},"new_variant":{"type":"object"},"payment_method":{"type":"string"}},"required":["order_id","item_id","new_product_id","new_variant"]}},
+    "modify_pending_order_items": {"name":"modify_pending_order_items","description":"[SINGLE-CALL] Modify item variants in a pending order. Can only be called ONCE per session.","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"modifications":{"type":"array","items":{"type":"object","properties":{"item_id":{"type":"string"},"new_variant":{"type":"object"}}}},"payment_method":{"type":"string"}},"required":["order_id","modifications"]}},
+    "modify_pending_order_address": {"name":"modify_pending_order_address","description":"Update shipping address on a pending order","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"new_address":{"type":"string"}},"required":["order_id","new_address"]}},
+    "modify_pending_order_payment": {"name":"modify_pending_order_payment","description":"Change payment method on a pending order to a different on-file method","input_schema":{"type":"object","properties":{"order_id":{"type":"string"},"new_payment_method":{"type":"string"}},"required":["order_id","new_payment_method"]}},
+    # ── Airline tau-bench tools (task_21-task_23) ──────────────────────────────
+    "search_direct_flights": {"name":"search_direct_flights","description":"Search for direct (non-stop) flights between two airports on a given date","input_schema":{"type":"object","properties":{"origin":{"type":"string"},"destination":{"type":"string"},"date":{"type":"string"},"cabin":{"type":"string"}},"required":["origin","destination","date"]}},
+    "search_onestop_flights": {"name":"search_onestop_flights","description":"Search for one-stop connecting flights between two airports on a given date","input_schema":{"type":"object","properties":{"origin":{"type":"string"},"destination":{"type":"string"},"date":{"type":"string"},"cabin":{"type":"string"}},"required":["origin","destination","date"]}},
+    "get_flight_details": {"name":"get_flight_details","description":"Get details for a specific flight by flight ID","input_schema":{"type":"object","properties":{"flight_id":{"type":"string"}},"required":["flight_id"]}},
+    "list_airports": {"name":"list_airports","description":"List all airports and their IATA codes","input_schema":{"type":"object","properties":{},"required":[]}},
+    "calculate_fare": {"name":"calculate_fare","description":"Calculate total fare including base fare, baggage fees, and optional insurance","input_schema":{"type":"object","properties":{"flight_id":{"type":"string"},"cabin":{"type":"string"},"bags":{"type":"integer"},"insurance":{"type":"boolean"},"passengers":{"type":"integer"}},"required":["flight_id","bags"]}},
+    "book_flight": {"name":"book_flight","description":"Book a flight reservation with passenger and payment details","input_schema":{"type":"object","properties":{"flight_id":{"type":"string"},"cabin":{"type":"string"},"passengers":{"type":"array","items":{"type":"object"}},"bags":{"type":"integer"},"insurance":{"type":"boolean"},"payment_methods":{"type":"array","items":{"type":"object"}}},"required":["flight_id","cabin","passengers","bags"]}},
+    "get_reservation_details": {"name":"get_reservation_details","description":"Get full details of an airline reservation including flights, passengers, and payment","input_schema":{"type":"object","properties":{"reservation_id":{"type":"string"}},"required":["reservation_id"]}},
+    "update_reservation_flights": {"name":"update_reservation_flights","description":"Update cabin class or specific flights in a reservation (not allowed for basic economy)","input_schema":{"type":"object","properties":{"reservation_id":{"type":"string"},"new_cabin":{"type":"string"},"new_flight_id":{"type":"string"}},"required":["reservation_id"]}},
+    "update_reservation_baggages": {"name":"update_reservation_baggages","description":"Add checked bags to a reservation (bags can only be added, not removed)","input_schema":{"type":"object","properties":{"reservation_id":{"type":"string"},"bags":{"type":"integer"}},"required":["reservation_id","bags"]}},
+    "cancel_reservation": {"name":"cancel_reservation","description":"Cancel an airline reservation; eligibility depends on ticket type and insurance","input_schema":{"type":"object","properties":{"reservation_id":{"type":"string"},"reason":{"type":"string"}},"required":["reservation_id","reason"]}},
 }
 
 
@@ -335,6 +368,17 @@ def _dispatch_tool(tool_name: str, params: dict, session_id: str, task_id: str |
         "get_subscription": ("subscriptions", "id", params.get("subscription_id")),
         "get_current_features": ("current_features", None, None),
         "get_new_plan_features": ("new_plan_features", None, None),
+        # Retail tau-bench tools (task_16-task_20)
+        "get_order_details": ("orders", "id", params.get("order_id")),
+        "get_product_details": ("products", "id", params.get("product_id")),
+        "get_user_details": ("users", "id", params.get("user_id")),
+        "list_product_types": ("products", None, None),
+        "list_airports": ("airports", None, None),
+        # Airline tau-bench tools (task_21-task_23)
+        "search_direct_flights": ("flights", None, None),
+        "search_onestop_flights": ("flights", None, None),
+        "get_flight_details": ("flights", "flight_id", params.get("flight_id")),
+        "get_reservation_details": ("reservations", "id", params.get("reservation_id")),
     }
 
     if tool_name in read_tools:
@@ -410,6 +454,58 @@ def _dispatch_tool(tool_name: str, params: dict, session_id: str, task_id: str |
 
     if tool_name in ["check_oncall_availability", "get_oncall"]:
         return fixture_data.get("oncall", [])
+
+    # Retail: find user by email
+    if tool_name == "find_user_by_email":
+        email = params.get("email", "").lower()
+        users = fixture_data.get("users", [])
+        user = next((u for u in users if u.get("email", "").lower() == email), None)
+        if user:
+            return {"user_id": user["id"], "name": user["name"], "found": True}
+        return {"found": False, "error": "No user found with that email"}
+
+    # Retail: find user by name+zip
+    if tool_name == "find_user_by_name_zip":
+        name = params.get("name", "").lower()
+        zip_code = params.get("zip", "")
+        users = fixture_data.get("users", [])
+        user = next((u for u in users if u.get("name", "").lower() == name and u.get("zip") == zip_code), None)
+        if user:
+            return {"user_id": user["id"], "name": user["name"], "found": True}
+        return {"found": False, "error": "No user found with that name and zip"}
+
+    # Airline: search direct flights (filter by date and after departure time if given)
+    if tool_name in ("search_direct_flights", "search_onestop_flights"):
+        flights = fixture_data.get("flights", [])
+        origin = params.get("origin", "")
+        dest = params.get("destination", "")
+        date = params.get("date", "")
+        results = [f for f in flights if f.get("origin") == origin and f.get("destination") == dest]
+        if date:
+            results = [f for f in results if f.get("date") == date]
+        if tool_name == "search_direct_flights":
+            results = [f for f in results if f.get("stops", 0) == 0]
+        else:
+            results = [f for f in results if f.get("stops", 0) > 0]
+        return results
+
+    # Airline: calculate fare
+    if tool_name == "calculate_fare":
+        flight_id = params.get("flight_id", "")
+        bags = params.get("bags", 1)
+        insurance = params.get("insurance", False)
+        passengers = params.get("passengers", 1)
+        flights = fixture_data.get("flights", [])
+        flight = next((f for f in flights if f.get("flight_id") == flight_id), flights[0] if flights else {})
+        base_fare = flight.get("base_fare", 0)
+        baggage_policy = fixture_data.get("baggage_policy", {})
+        free_bags = baggage_policy.get("economy_free_bags", 1)
+        extra_bag_fee = baggage_policy.get("extra_bag_fee", 50)
+        extra_bags = max(0, bags - free_bags)
+        baggage_fee = extra_bags * extra_bag_fee
+        insurance_fee = 30 * passengers if insurance else 0
+        total = base_fare + baggage_fee + insurance_fee
+        return {"base_fare": base_fare, "baggage_fee": baggage_fee, "insurance_fee": insurance_fee, "total": total}
 
     # Write/action tools — acknowledge and return success
     return {"status": "ok", "tool": tool_name, "params": params}

@@ -1,0 +1,85 @@
+{
+  "users": [
+    {
+      "id": "USR-5571",
+      "name": "Diego Alvarez",
+      "email": "diego.alvarez5571@example.com",
+      "zip": "77002",
+      "address": "1801 Main Street, Suite 200, Houston, TX 77002, USA",
+      "payment_methods": [
+        {"id": "CC-5571", "type": "credit_card", "last4": "5571", "brand": "Visa"},
+        {"id": "GC-2219", "type": "gift_card", "balance": 15.00}
+      ],
+      "orders": ["W5512887"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "W5512887",
+      "user_id": "USR-5571",
+      "status": "pending",
+      "total": 51.98,
+      "payment_method": "CC-5571",
+      "created_at": "2026-02-27T16:00:00Z",
+      "items": [
+        {
+          "item_id": "ITEM-TS01",
+          "product_id": "PROD-TS001",
+          "product_name": "Classic Crew-Neck T-Shirt",
+          "color": "blue",
+          "size": "large",
+          "quantity": 1,
+          "unit_price": 25.99
+        },
+        {
+          "item_id": "ITEM-TS02",
+          "product_id": "PROD-TS002",
+          "product_name": "Classic Crew-Neck T-Shirt",
+          "color": "green",
+          "size": "large",
+          "quantity": 1,
+          "unit_price": 25.99
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD-TS001",
+      "name": "Classic Crew-Neck T-Shirt",
+      "type": "t_shirt",
+      "variants": [
+        {"color": "blue", "size": "small", "price": 22.99, "in_stock": true},
+        {"color": "blue", "size": "medium", "price": 24.99, "in_stock": true},
+        {"color": "blue", "size": "large", "price": 25.99, "in_stock": true},
+        {"color": "blue", "size": "xl", "price": 25.99, "in_stock": true}
+      ]
+    },
+    {
+      "id": "PROD-TS002",
+      "name": "Classic Crew-Neck T-Shirt",
+      "type": "t_shirt",
+      "variants": [
+        {"color": "green", "size": "small", "price": 22.99, "in_stock": true},
+        {"color": "green", "size": "medium", "price": 24.99, "in_stock": true},
+        {"color": "green", "size": "large", "price": 25.99, "in_stock": true},
+        {"color": "green", "size": "xl", "price": 25.99, "in_stock": false}
+      ]
+    }
+  ],
+  "modification_policy": {
+    "eligible_statuses": ["pending"],
+    "single_call_constraint": true,
+    "post_modification_status": "pending (items modified)"
+  },
+  "calculation_hints": {
+    "ITEM-TS01_old_price": 25.99,
+    "ITEM-TS01_new_price": 24.99,
+    "ITEM-TS02_old_price": 25.99,
+    "ITEM-TS02_new_price": 24.99,
+    "price_difference": -2.00,
+    "old_total": 51.98,
+    "new_total": 49.98,
+    "note": "Both shirts go from large ($25.99 each) to medium ($24.99 each) = $2.00 total refund"
+  }
+}

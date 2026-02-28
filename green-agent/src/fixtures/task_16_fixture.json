@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "id": "USR-4471",
+      "name": "Ana Ramirez",
+      "email": "ana.ramirez4471@example.com",
+      "zip": "10023",
+      "address": "142 West 72nd Street, Suite 4B, New York, NY 10023, USA",
+      "payment_methods": [
+        {"id": "CC-7291", "type": "credit_card", "last4": "7291", "brand": "Visa"},
+        {"id": "GC-5512", "type": "gift_card", "balance": 25.00}
+      ],
+      "orders": ["W4823901", "W3311045"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "W4823901",
+      "user_id": "USR-4471",
+      "status": "delivered",
+      "total": 134.97,
+      "payment_method": "CC-7291",
+      "delivered_at": "2026-02-15T14:30:00Z",
+      "items": [
+        {"item_id": "ITEM-HP01", "product_id": "PROD-HP01", "product_name": "Bluetooth Headphones Pro", "quantity": 1, "unit_price": 89.99},
+        {"item_id": "ITEM-LS02", "product_id": "PROD-LS02", "product_name": "Adjustable Laptop Stand", "quantity": 1, "unit_price": 34.99},
+        {"item_id": "ITEM-CB03", "product_id": "PROD-CB03", "product_name": "USB-C Hub", "quantity": 1, "unit_price": 29.99}
+      ]
+    },
+    {
+      "id": "W3311045",
+      "user_id": "USR-4471",
+      "status": "pending",
+      "total": 49.99,
+      "payment_method": "GC-5512"
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD-HP01",
+      "name": "Bluetooth Headphones Pro",
+      "type": "headphones",
+      "price": 89.99,
+      "variants": [{"color": "black"}, {"color": "white"}]
+    },
+    {
+      "id": "PROD-LS02",
+      "name": "Adjustable Laptop Stand",
+      "type": "laptop_stand",
+      "price": 34.99,
+      "variants": [{"color": "silver"}, {"color": "black"}]
+    },
+    {
+      "id": "PROD-CB03",
+      "name": "USB-C Hub 7-Port",
+      "type": "usb_hub",
+      "price": 29.99,
+      "variants": [{"color": "space_gray"}]
+    }
+  ],
+  "return_policy": {
+    "eligible_statuses": ["delivered"],
+    "refund_methods": ["original_payment", "gift_card"],
+    "refund_timeline_days_credit_card": "5-7",
+    "refund_timeline_gift_card": "immediate"
+  },
+  "calculation_hints": {
+    "ITEM-HP01_price": 89.99,
+    "ITEM-LS02_price": 34.99,
+    "total_refund": "89.99 + 34.99 = $124.98",
+    "refund_method": "CC-7291 (original payment)"
+  }
+}

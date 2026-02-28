@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "id": "USR-7734",
+      "name": "Sophia Kim",
+      "email": "sophia.kim7734@example.com",
+      "zip": "98101",
+      "address": "210 First Avenue, Apt 3B, Seattle, WA 98101, USA",
+      "payment_methods": [
+        {"id": "PP-6634", "type": "paypal", "email": "sophia.kim@paypal.com"},
+        {"id": "GC-1129", "type": "gift_card", "balance": 200.00},
+        {"id": "CC-8823", "type": "credit_card", "last4": "8823", "brand": "Visa"}
+      ],
+      "orders": ["W8841623"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "W8841623",
+      "user_id": "USR-7734",
+      "status": "pending",
+      "total": 87.50,
+      "shipping_address": "210 First Avenue, Apt 3B, Seattle, WA 98101, USA",
+      "payment_method": "PP-6634",
+      "created_at": "2026-02-28T08:30:00Z",
+      "items": [
+        {
+          "item_id": "ITEM-BL01",
+          "product_id": "PROD-BL01",
+          "product_name": "Wireless Bluetooth Speaker",
+          "color": "navy",
+          "quantity": 1,
+          "unit_price": 87.50
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD-BL01",
+      "name": "Wireless Bluetooth Speaker",
+      "type": "bluetooth_speaker",
+      "variants": [
+        {"color": "navy", "price": 87.50, "in_stock": true},
+        {"color": "red", "price": 87.50, "in_stock": true}
+      ]
+    }
+  ],
+  "modification_policy": {
+    "eligible_statuses": ["pending"],
+    "payment_change": "must_be_different_method",
+    "gift_card_balance_required": "must_cover_full_order_total"
+  },
+  "calculation_hints": {
+    "order_total": 87.50,
+    "gc_balance": 200.00,
+    "balance_sufficient": true,
+    "balance_remaining_after": "200.00 - 87.50 = $112.50"
+  }
+}

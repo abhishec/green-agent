@@ -1,0 +1,72 @@
+{
+  "users": [
+    {
+      "id": "olivia_gonzalez_2305",
+      "name": "Olivia Gonzalez",
+      "email": "olivia.gonzalez2305@example.com",
+      "membership": "silver",
+      "payment_methods": [
+        {"id": "CC-7702", "type": "credit_card", "last4": "7702", "brand": "Mastercard"},
+        {"id": "GC-5531", "type": "gift_card", "balance": 50.00}
+      ],
+      "reservation_ids": ["Z7GOZK"]
+    }
+  ],
+  "reservations": [
+    {
+      "id": "Z7GOZK",
+      "user_id": "olivia_gonzalez_2305",
+      "type": "round_trip",
+      "status": "confirmed",
+      "cabin": "basic_economy",
+      "can_change": false,
+      "travel_insurance": true,
+      "total_paid": 387.50,
+      "payment_method": "CC-7702",
+      "outbound": {
+        "flight_id": "AA810",
+        "origin": "DAL",
+        "destination": "EWR",
+        "date": "2026-05-15",
+        "departure_time": "09:00",
+        "arrival_time": "14:30"
+      },
+      "return": {
+        "flight_id": "AA823",
+        "origin": "EWR",
+        "destination": "DAL",
+        "date": "2026-05-18",
+        "departure_time": "15:00",
+        "arrival_time": "17:45"
+      },
+      "passengers": [{"name": "Olivia Gonzalez", "dob": "1990-07-22"}],
+      "booked_at": "2026-04-10T12:00:00Z"
+    }
+  ],
+  "cancellation_policy": {
+    "basic_economy_changeable": false,
+    "with_insurance_refund": "full",
+    "refund_timeline_days": "5-7",
+    "eligible_reasons": ["health", "weather", "airline_cancellation", "within_24h_of_booking"]
+  },
+  "later_flights": [
+    {
+      "flight_id": "AA891",
+      "origin": "EWR",
+      "destination": "DAL",
+      "date": "2026-05-18",
+      "departure_time": "19:00",
+      "arrival_time": "21:45",
+      "cabin": "basic_economy",
+      "fare": 195.00,
+      "note": "Would not be eligible for change from basic economy"
+    }
+  ],
+  "calculation_hints": {
+    "total_refund": 387.50,
+    "insurance_covers": "full refund",
+    "refund_method": "CC-7702",
+    "refund_timeline": "5-7 business days",
+    "note": "Basic economy cannot be changed; with travel insurance full refund is available on cancellation"
+  }
+}
