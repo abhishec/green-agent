@@ -24,4 +24,4 @@ phases:
     commands:
       - echo "Pushing green-agent to ECR..."
       - docker push $ECR_REGISTRY/agentbench-green:latest
-      - echo "Done. Green image: $ECR_REGISTRY/agentbench-green:latest"
+      - 'echo "Done. Green image: $ECR_REGISTRY/agentbench-green:latest"'

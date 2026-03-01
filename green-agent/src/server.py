@@ -10,9 +10,24 @@ import socket
 import uuid
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
+
+# ── API Key protection ────────────────────────────────────────────────────────
+# Protects expensive write endpoints (/benchmark, /benchmark/batch, /report/now,
+# /training-data/export) from public abuse.
+# Set BENCHMARK_API_KEY env var in ECS task-def. Leave blank to disable (dev mode).
+_API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
+_BENCHMARK_API_KEY = os.getenv("BENCHMARK_API_KEY", "")
+
+
+def _require_api_key(key: str | None = Depends(_API_KEY_HEADER)):
+    if not _BENCHMARK_API_KEY:
+        return  # key not configured — open access (local dev)
+    if key != _BENCHMARK_API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid or missing X-API-Key")
 
 from src.mcp_server import call_tool, get_tools_for_session
 from src.scenarios import SCENARIO_REGISTRY
@@ -139,7 +154,7 @@ class BatchBenchmarkRequest(BaseModel):
 
 
 @app.post("/benchmark")
-async def run_benchmark(req: BenchmarkRequest):
+async def run_benchmark(req: BenchmarkRequest, _=Depends(_require_api_key)):
     """
     Trigger a benchmark assessment from within the green-agent container.
     Green-agent auto-detects its own IP to pass as tools_endpoint to purple,
@@ -199,7 +214,7 @@ async def run_benchmark(req: BenchmarkRequest):
 
 # ── Batch Benchmark ──────────────────────────────────────────────────────────
 @app.post("/benchmark/batch")
-async def run_benchmark_batch(req: BatchBenchmarkRequest):
+async def run_benchmark_batch(req: BatchBenchmarkRequest, _=Depends(_require_api_key)):
     """Run multiple benchmark tasks concurrently.
     Body: {task_ids: [...], purple_url: ..., difficulty: ...}
     """
@@ -409,7 +424,7 @@ async def rl_training_data(hours: float = 4):
 
 # ── Report Endpoints ──────────────────────────────────────────────────────────
 @app.post("/report/now")
-async def report_now(hours: float = 4):
+async def report_now(hours: float = 4, _=Depends(_require_api_key)):
     """Generate and save a report immediately from the last N hours of runs."""
     from src.run_store import get_recent_runs
     from src.reporter import BenchmarkReporter
@@ -482,7 +497,7 @@ async def report_list():
 
 # -- Training Data Endpoints --------------------------------------------------
 @app.post("/training-data/export")
-async def export_training_data(hours: float = 4):
+async def export_training_data(hours: float = 4, _=Depends(_require_api_key)):
     """Export recent benchmark runs as BrainOS fine-tuning JSONL to S3."""
     from src.training_data_factory import TrainingDataFactory
     import tempfile, os

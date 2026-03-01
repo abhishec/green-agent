@@ -26,9 +26,13 @@ env:
   S3_BUCKET: nexusbrain-codebuild-source-848269696611
   S3_KEY: agentbench/source.zip
   GREEN_SERVICE: agentbench-green
-  GREEN_TASK_DEF: agentbench-green:4
+  GREEN_TASK_DEF: agentbench-green:5
   GREEN_URL: https://benchmark.usebrainos.com
   PURPLE_URL: https://purple.agentbench.usebrainos.com
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   # ─────────────────────────────────────────────
@@ -43,11 +47,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::848269696611:role/agentbench-github-deploy
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Zip and upload source to S3
@@ -102,11 +105,10 @@ jobs:
     if: always() && (needs.build.result == 'success' || needs.build.result == 'skipped')
 
     steps:
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::848269696611:role/agentbench-github-deploy
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy green ECS service
@@ -163,8 +165,13 @@ jobs:
       - name: Run benchmark task_06 + task_24
         run: |
           echo "🧪 Smoke test: task_06 (operations) + task_24 (banking)..."
+          # Fetch BENCHMARK_API_KEY from SSM (OIDC role has SSM read access)
+          BENCH_KEY=$(aws ssm get-parameter \
+            --name /agentbench/benchmark-api-key \
+            --with-decryption --query Parameter.Value --output text)
           RESULT=$(curl -sf -X POST ${{ env.GREEN_URL }}/benchmark/batch \
             -H "Content-Type: application/json" \
+            -H "X-API-Key: $BENCH_KEY" \
             -d '{
               "task_ids": ["task_06", "task_24"],
               "purple_url": "${{ env.PURPLE_URL }}",
